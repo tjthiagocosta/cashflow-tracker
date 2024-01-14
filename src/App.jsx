@@ -2,10 +2,11 @@ import { useState } from "react";
 import "./App.css";
 
 function App() {
+  const [statements, setStatements] = useState([]);
   const [input, setInput] = useState({
     statement: "",
     amount: "",
-    statementType: "",
+    statementType: "income",
   });
 
   const [showError, setShowError] = useState({
@@ -19,7 +20,7 @@ function App() {
   };
 
   const handleAddNewStatement = () => {
-    const { statement, amount } = input;
+    const { statement, amount, statementType } = input;
 
     if (!statement) {
       return setShowError({
@@ -35,6 +36,20 @@ function App() {
       setShowError({
         statement: false,
         amount: false,
+      });
+      setStatements([
+        ...statements,
+        {
+          name: statement,
+          amount: parseFloat(amount).toFixed(2),
+          type: statementType,
+          date: new Date().toDateString(),
+        },
+      ]);
+      setInput({
+        statement: "",
+        amount: "",
+        statementType: "income",
       });
     }
   };
